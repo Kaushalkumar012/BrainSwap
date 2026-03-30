@@ -291,7 +291,7 @@ This project is licensed under the **MIT License**.
 
 <div align="center">
 
-Made with ❤️ for the hackathon
+Made by RunTimeError
 
 **[⭐ Star this repo](https://github.com/Kaushalkumar012/BrainSwap)** if you found it useful!
 
