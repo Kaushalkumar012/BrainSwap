@@ -4,7 +4,7 @@
 
 <img width="90" src="https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/skillswap/public/vite.svg" />
 
-# 🔄 BrainSwap
+# 🔄 SkillSwap
 
 ### **Exchange skills. Grow together. For free.**
 
