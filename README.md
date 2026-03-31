@@ -63,6 +63,9 @@
 |:---:|:---:|
 | ![Leaderboard](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/leaderboard.png) | ![Profile](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/profile.png) |
 
+### 🤖 AI Chatbot
+![Chatbot](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/chatbot.png)
+
 </div>
 
 ---
@@ -79,7 +82,7 @@
 | 🚀 **Collab Board** | Post projects, find collaborators, manage join requests |
 | ⭐ **Ratings** | Rate peers after completed sessions with star ratings & feedback |
 | 🏆 **Leaderboard** | Top users ranked by sessions completed and rating score |
-| 🤖 **AI Chatbot** | Built-in Hindi/English assistant to guide users |
+| 🤖 **AI Chatbot** | Built-in Hindi/English floating assistant — answers questions about skills, matches, sessions, ratings & more |
 | 🌙 **Dark / Light Mode** | Full theme support across all pages |
 | 🔍 **Skill Search** | Filter matches by name, location or skill |
 | 📊 **Activity Feed** | Real-time recent activity on your dashboard |
@@ -99,6 +102,7 @@
 | Shadcn/ui | Accessible UI components |
 | Axios | HTTP client |
 | date-fns | Date formatting |
+| Built-in Rule Engine | Powers the Hindi/English AI chatbot (no external API) |
 
 ### Backend
 | Tech | Purpose |
@@ -121,7 +125,7 @@ BrainSwap/
 │       │                         # Sessions, Ratings, Collabs, Leaderboard
 │       ├── components/
 │       │   ├── layout/           # AppLayout, AppSidebar
-│       │   └── shared/           # UserAvatar, ChatBot, StarRating, etc.
+│       │   └── shared/           # UserAvatar, ChatBot, StarRating, ThemeToggle, etc.
 │       ├── services/             # API service files (axios)
 │       ├── store/                # Zustand stores (auth + app)
 │       └── types/                # TypeScript interfaces
@@ -267,6 +271,22 @@ Score = (Rating × 20) + Total Sessions Completed
 ```
 
 Complete more sessions and maintain a high rating to climb the leaderboard!
+
+---
+
+## 🤖 AI Chatbot
+
+BrainSwap includes a fully built-in floating chatbot — **no external AI API required**.
+
+- Responds in **Hindi + English (Hinglish)**
+- Aware of your live data: skills, active matches, session count
+- Covers: Skills, Matches, Sessions, Messages, Ratings, Profile, Collab Board
+- Quick-reply buttons for common questions
+- Typing indicator, minimize/close, auto-scroll
+- Accessible via the floating button (bottom-right) on every page after login
+
+**Component:** `skillswap/src/components/shared/ChatBot.tsx`  
+**Integrated in:** `skillswap/src/components/layout/AppLayout.tsx`
 
 ---
 
