@@ -18,6 +18,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io)
 
 <br/>
 
@@ -43,8 +44,6 @@
 
 <div align="center">
 
-### Core Features Overview
-
 | 🔐 Login | 🏠 Dashboard | 🤝 Matches |
 |:---:|:---:|:---:|
 | ![Login](./screenshots/login.png) | ![Dashboard](./screenshots/dashboard.png) | ![Matches](./screenshots/matches.png) |
@@ -68,12 +67,16 @@
 | 🔐 **Authentication** | Register, Login, OAuth (Google & GitHub) |
 | 👤 **Profile** | Edit name, bio, location, upload/remove profile picture |
 | 🤝 **Smart Matching** | Auto-matched with users based on skill overlap & compatibility score |
-| 💬 **Real-time Chat** | Messaging with live thread updates, active users, typing state, and auto-reply personalities |
+| 💬 **Real-time Chat** | Socket.io powered messaging with live updates, typing indicators & presence |
 | 📅 **Sessions** | Schedule, accept, reject and mark sessions as complete |
 | 🚀 **Collab Board** | Post projects, find collaborators, manage join requests |
 | ⭐ **Ratings** | Rate peers after completed sessions with star ratings & feedback |
-| 🏆 **Leaderboard** | Top users ranked by sessions completed and rating score |
-| 🤖 **AI Chatbot** | Built-in Hindi/English floating assistant — answers questions about skills, matches, sessions, ratings & more |
+| 🏆 **Leaderboard** | Real-time leaderboard ranked by XP, sessions & rating score |
+| 🎖️ **Badges** | Earn badges for milestones like first session, top rated, and more |
+| 🏅 **Achievements** | Unlock achievements as you grow on the platform |
+| 🎮 **Gamification** | XP system, level progression, level-up animations & badge toasts |
+| 🔔 **Real-time Notifications** | Live in-app notifications via Socket.io |
+| 🤖 **AI Chatbot** | Built-in Hindi/English floating assistant — no external API required |
 | 🌙 **Dark / Light Mode** | Full theme support across all pages |
 | 🔍 **Skill Search** | Filter matches by name, location or skill |
 | 📊 **Activity Feed** | Real-time recent activity on your dashboard |
@@ -91,6 +94,7 @@
 | Zustand | Lightweight state management |
 | React Router v7 | Client-side routing |
 | Shadcn/ui | Accessible UI components |
+| Socket.io Client | Real-time communication |
 | Axios | HTTP client |
 | date-fns | Date formatting |
 | Built-in Rule Engine | Powers the Hindi/English AI chatbot (no external API) |
@@ -99,6 +103,7 @@
 | Tech | Purpose |
 |---|---|
 | Node.js + Express | REST API server |
+| Socket.io | Real-time WebSocket server |
 | MySQL2 | Relational database |
 | JWT | Stateless authentication |
 | Bcrypt | Password hashing |
@@ -110,25 +115,38 @@
 
 ```
 BrainSwap/
-├── skillswap/                    # Frontend (React + TypeScript)
+├── skillswap/                        # Frontend (React + TypeScript)
 │   └── src/
-│       ├── pages/                # Dashboard, Profile, Matches, Messages,
-│       │                         # Sessions, Ratings, Collabs, Leaderboard
+│       ├── pages/                    # Dashboard, Profile, Matches, Messages,
+│       │                             # Sessions, Ratings, Collabs, Leaderboard,
+│       │                             # Achievements, Badges
 │       ├── components/
-│       │   ├── layout/           # AppLayout, AppSidebar
-│       │   └── shared/           # UserAvatar, ChatBot, StarRating, ThemeToggle, etc.
-│       ├── services/             # API service files (axios)
-│       ├── store/                # Zustand stores (auth + app)
-│       └── types/                # TypeScript interfaces
+│       │   ├── layout/               # AppLayout, AppSidebar
+│       │   ├── shared/               # UserAvatar, ChatBot, StarRating,
+│       │   │                         # ThemeToggle, RealtimeNotifications
+│       │   └── gamification/         # BadgeCard, AchievementCard,
+│       │                             # LevelProgressBar, LevelUpAnimation,
+│       │                             # BadgeEarnedToast, AchievementUnlockedModal
+│       ├── hooks/                    # useSocket, useBadges, useAchievements,
+│       │                             # useLeaderboard, useLevelProgress
+│       ├── services/                 # API + socket service files (axios)
+│       ├── store/                    # Zustand stores (auth + app + gamification)
+│       └── types/                    # TypeScript interfaces
 │
-└── skillswap-backend/            # Backend (Node.js + Express)
-    ├── routes/                   # auth, skills, matches, sessions,
-    │                             # messages, ratings, collabs, leaderboard
-    ├── middleware/               # JWT auth middleware
-    ├── utils/                    # generateMatches helper
-    ├── schema.sql                # Full database schema
-    ├── seed.js                   # Demo data seeder
-    └── index.js                  # Entry point
+└── skillswap-backend/                # Backend (Node.js + Express)
+    ├── routes/                       # auth, skills, matches, sessions, messages,
+    │                                 # ratings, collabs, leaderboard, gamification,
+    │                                 # presence, realtime
+    ├── services/                     # achievementService, badgeService,
+    │                                 # xpService, gamificationTrigger,
+    │                                 # leaderboardService
+    ├── socket/                       # socketHandler, chatHandler, botHandler,
+    │                                 # presenceHandler, gamificationHandler
+    ├── middleware/                   # JWT auth middleware
+    ├── utils/                        # generateMatches helper
+    ├── schema.sql                    # Full database schema
+    ├── seed.js                       # Demo data seeder
+    └── index.js                      # Entry point
 ```
 
 ---
@@ -253,15 +271,52 @@ http://localhost:5173
 | PATCH | `/api/collabs/requests/:id` | Accept/reject request |
 | GET | `/api/leaderboard` | Get top users by score |
 
+### Gamification
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/gamification/profile` | Get XP, level & progress |
+| GET | `/api/gamification/badges` | Get earned badges |
+| GET | `/api/gamification/achievements` | Get unlocked achievements |
+| GET | `/api/leaderboard/realtime` | Real-time leaderboard |
+
+### Real-time (Socket.io Events)
+| Event | Direction | Description |
+|---|---|---|
+| `join` | Client → Server | Join user room |
+| `message:send` | Client → Server | Send a chat message |
+| `message:receive` | Server → Client | Receive a chat message |
+| `presence:online` | Server → Client | User came online |
+| `presence:offline` | Server → Client | User went offline |
+| `typing:start` / `typing:stop` | Client ↔ Server | Typing indicators |
+| `badge:earned` | Server → Client | Badge unlock notification |
+| `achievement:unlocked` | Server → Client | Achievement unlock notification |
+| `xp:gained` | Server → Client | XP gain event |
+| `level:up` | Server → Client | Level up event |
+
 ---
 
 ## 🏆 Leaderboard Scoring
 
 ```
-Score = (Rating × 20) + Total Sessions Completed
+Score = (Rating × 20) + Total Sessions Completed + XP Bonus
 ```
 
-Complete more sessions and maintain a high rating to climb the leaderboard!
+Complete more sessions, earn badges, and maintain a high rating to climb the leaderboard!
+
+---
+
+## 🎮 Gamification System
+
+BrainSwap includes a full XP & leveling system to keep you motivated.
+
+- **XP** earned for: completing sessions, receiving ratings, sending messages, joining collabs
+- **Levels** — progress bar shown on dashboard, level-up animation on milestone
+- **Badges** — milestone rewards (e.g. First Session, Top Rated, Collab King)
+- **Achievements** — multi-step goals tracked over time
+- **Toast notifications** — instant feedback when you earn a badge or unlock an achievement
+
+**Pages:** `Achievements.tsx`, `Badges.tsx`
+**Components:** `skillswap/src/components/gamification/`
 
 ---
 
@@ -276,15 +331,8 @@ BrainSwap includes a fully built-in floating chatbot — **no external AI API re
 - Typing indicator, minimize/close, auto-scroll
 - Accessible via the floating button (bottom-right) on every page after login
 
-**Component:** `skillswap/src/components/shared/ChatBot.tsx`  
+**Component:** `skillswap/src/components/shared/ChatBot.tsx`
 **Integrated in:** `skillswap/src/components/layout/AppLayout.tsx`
-
----
-
-## Notes
-
-- Frontend scripts like `npm run typecheck` should be run from `skillswap/`.
-- Screenshot generation uses `screenshot.js` in the repo root and expects the frontend to be running on `http://localhost:5173`.
 
 ---
 
