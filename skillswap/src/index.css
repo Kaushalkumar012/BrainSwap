@@ -790,63 +790,27 @@
   );
 }
 .chat-thread {
-  background:
-    radial-gradient(circle at top, rgba(42, 199, 182, 0.1), transparent 22%),
-    radial-gradient(
-      circle at bottom right,
-      rgba(96, 165, 250, 0.08),
-      transparent 24%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.46),
-      rgba(245, 250, 255, 0.22) 22%,
-      transparent 55%
-    );
-}
-.chat-thread::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), transparent 22%);
+  background: #f8fafc;
 }
 .dark .chat-thread {
-  background:
-    radial-gradient(circle at top, rgba(42, 199, 182, 0.06), transparent 20%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%);
-}
-.dark .chat-thread::before {
-  opacity: 0;
+  background: rgba(14, 24, 40, 0.98);
 }
 .chat-bubble-me {
   background: linear-gradient(135deg, #2ac7b6, #42b4ff);
-  color: white;
-  box-shadow: 0 16px 30px rgba(42, 199, 182, 0.25);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(42, 199, 182, 0.3);
 }
 .chat-bubble-other {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.94),
-    rgba(236, 246, 255, 0.94)
-  );
-  border: 1px solid rgba(177, 210, 230, 0.78);
-  color: rgb(15 23 42);
-  box-shadow: 0 14px 30px rgba(148, 163, 184, 0.14);
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #0f172a;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
 }
 .dark .chat-bubble-other {
-  background: linear-gradient(
-    180deg,
-    rgba(25, 40, 60, 0.95),
-    rgba(17, 29, 45, 0.92)
-  );
-  border-color: rgba(148, 163, 184, 0.18);
-  color: rgb(241 245 249);
-  box-shadow: 0 18px 32px rgba(2, 6, 23, 0.28);
+  background: rgba(30, 46, 68, 0.98);
+  border-color: rgba(148, 163, 184, 0.22);
+  color: #f1f5f9;
+  box-shadow: 0 4px 14px rgba(2, 6, 23, 0.3);
 }
 .active-user-pill {
   border: 1px solid rgba(192, 221, 237, 0.72);
