@@ -729,6 +729,19 @@
     linear-gradient(180deg, rgba(17, 31, 49, 0.98), rgba(12, 23, 39, 0.95));
   box-shadow: 0 30px 70px rgba(2, 6, 23, 0.38);
 }
+.inbox-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.34),
+    transparent 30%,
+    rgba(42, 199, 182, 0.06) 68%,
+    transparent 100%
+  );
+}
 .conversation-card {
   position: relative;
   overflow: hidden;
@@ -791,10 +804,24 @@
       transparent 55%
     );
 }
+.chat-thread::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), transparent 22%);
+}
 .dark .chat-thread {
   background:
     radial-gradient(circle at top, rgba(42, 199, 182, 0.06), transparent 20%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%);
+}
+.dark .chat-thread::before {
+  opacity: 0;
 }
 .chat-bubble-me {
   background: linear-gradient(135deg, #2ac7b6, #42b4ff);

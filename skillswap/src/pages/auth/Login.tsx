@@ -116,7 +116,7 @@ export default function Login() {
           <div className="flex items-center gap-3">
             <SkillSwapLogo size={44} />
             <span className="text-xl font-bold tracking-tight text-white">
-              SkillBridge
+              BRAIN SWAP
             </span>
           </div>
         </div>
@@ -204,7 +204,7 @@ export default function Login() {
         <div className="relative z-10 w-full max-w-sm">
           <div className="animate-fade-up mb-8 flex items-center gap-2 lg:hidden">
             <SkillSwapLogo size={32} />
-            <span className="text-lg font-bold text-white">SkillBridge</span>
+            <span className="text-lg font-bold text-white">BRAIN SWAP</span>
           </div>
 
           <div className="animate-scale-in animate-card-breath glass rounded-[28px] border-white/[0.12] p-8 shadow-2xl shadow-cyan-950/30">

@@ -4,11 +4,11 @@
 
 <img width="90" src="https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/skillswap/public/vite.svg" />
 
-# 🔄 SkillSwap
+# BRAIN SWAP
 
 ### **Exchange skills. Grow together. For free.**
 
-*A full-stack peer-to-peer skill exchange platform — teach what you know, learn what you want.*
+*A full-stack peer-to-peer skill exchange platform where you teach what you know and learn what you want.*
 
 <br/>
 
@@ -33,7 +33,7 @@
 
 <div align="center">
 
-> 💡 *"I'll teach you React if you teach me UI/UX Design"* — that's BrainSwap.
+> 💡 *"I'll teach you React if you teach me UI/UX Design"* — that's BRAIN SWAP.
 
 </div>
 
@@ -77,7 +77,7 @@
 | 🔐 **Authentication** | Register, Login, OAuth (Google & GitHub) |
 | 👤 **Profile** | Edit name, bio, location, upload/remove profile picture |
 | 🤝 **Smart Matching** | Auto-matched with users based on skill overlap & compatibility score |
-| 💬 **Real-time Chat** | Messaging with auto-reply personalities per user |
+| 💬 **Real-time Chat** | Messaging with live thread updates, active users, typing state, and auto-reply personalities |
 | 📅 **Sessions** | Schedule, accept, reject and mark sessions as complete |
 | 🚀 **Collab Board** | Post projects, find collaborators, manage join requests |
 | ⭐ **Ratings** | Rate peers after completed sessions with star ratings & feedback |
@@ -287,6 +287,13 @@ BrainSwap includes a fully built-in floating chatbot — **no external AI API re
 
 **Component:** `skillswap/src/components/shared/ChatBot.tsx`  
 **Integrated in:** `skillswap/src/components/layout/AppLayout.tsx`
+
+---
+
+## Notes
+
+- Frontend scripts like `npm run typecheck` should be run from `skillswap/`.
+- Screenshot generation uses `screenshot.js` in the repo root and expects the frontend to be running on `http://localhost:5173`.
 
 ---
 

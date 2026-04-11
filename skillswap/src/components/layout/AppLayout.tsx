@@ -15,6 +15,7 @@ import { sessionService } from "@/services/sessionService"
 import { messageService } from "@/services/messageService"
 import { ratingService } from "@/services/ratingService"
 import { ThemeToggle } from "@/components/shared/ThemeToggle"
+import { presenceService } from "@/services/presenceService"
 import { ChatBot } from "@/components/shared/ChatBot"
 import { Toaster } from "@/components/ui/sonner"
 
@@ -51,6 +52,19 @@ export function AppLayout() {
     setConversations,
     setRatings,
   ])
+
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    presenceService.ping().catch(() => {})
+    const interval = window.setInterval(() => {
+      presenceService.ping().catch(() => {})
+    }, 30000)
+
+    return () => {
+      window.clearInterval(interval)
+    }
+  }, [isAuthenticated])
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />

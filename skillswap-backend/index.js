@@ -13,11 +13,13 @@ app.use('/api/skills', require('./routes/skills'));
 app.use('/api/matches', require('./routes/matches'));
 app.use('/api/sessions', require('./routes/sessions'));
 app.use('/api/messages', require('./routes/messages'));
+app.use('/api/presence', require('./routes/presence'));
+app.use('/api/realtime', require('./routes/realtime'));
 app.use('/api/ratings', require('./routes/ratings'));
 app.use('/api/collabs', require('./routes/collabs'));
 app.use('/api/leaderboard', require('./routes/leaderboard'));
 
-app.get('/', (req, res) => res.send('SkillSwap API is running. Frontend: http://localhost:5173'));
+app.get('/', (req, res) => res.send('BRAIN SWAP API is running. Frontend: http://localhost:5173'));
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 const PORT = process.env.PORT || 8080;

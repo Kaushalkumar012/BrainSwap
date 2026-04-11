@@ -51,6 +51,15 @@ const PAGES = [
     console.log(`✅ ${p.name}.png`);
   }
 
+  // Screenshot chatbot open
+  console.log('Navigating to dashboard for chatbot...');
+  await page.goto('http://localhost:5173/dashboard', { waitUntil: 'networkidle2', timeout: 15000 });
+  await new Promise(r => setTimeout(r, 1500));
+  await page.click('button[aria-label="Open chatbot"]');
+  await new Promise(r => setTimeout(r, 1000));
+  await page.screenshot({ path: path.join(OUT, 'chatbot.png'), fullPage: false });
+  console.log('✅ chatbot.png');
+
   await browser.close();
   console.log('\n🎉 All screenshots saved to /screenshots/');
 })();

@@ -1,100 +1,106 @@
-export type SkillType = 'offer' | 'want';
-export type SessionStatus = 'pending' | 'accepted' | 'rejected' | 'completed';
-export type MatchStatus = 'pending' | 'active';
+export type SkillType = "offer" | "want"
+export type SessionStatus = "pending" | "accepted" | "rejected" | "completed"
+export type MatchStatus = "pending" | "active"
 
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  bio?: string;
-  avatar?: string;
-  location?: string;
-  rating: number;
-  totalSessions: number;
+  id: number
+  name: string
+  email: string
+  bio?: string
+  avatar?: string
+  location?: string
+  rating: number
+  totalSessions: number
 }
 
 export interface Skill {
-  id: number;
-  userId: number;
-  skillName: string;
-  type: SkillType;
-  level?: string;
+  id: number
+  userId: number
+  skillName: string
+  type: SkillType
+  level?: string
 }
 
 export interface Match {
-  id: number;
-  user1Id: number;
-  user2Id: number;
-  status: MatchStatus;
-  matchedUser: User;
-  matchedSkills: { offer: string[]; want: string[] };
-  compatibilityScore: number;
+  id: number
+  user1Id: number
+  user2Id: number
+  status: MatchStatus
+  matchedUser: User
+  matchedSkills: { offer: string[]; want: string[] }
+  compatibilityScore: number
 }
 
 export interface Message {
-  id: number;
-  senderId: number;
-  receiverId: number;
-  message: string;
-  createdAt: string;
+  id: number
+  senderId: number
+  receiverId: number
+  message: string
+  createdAt: string
 }
 
 export interface Conversation {
-  id: number;
-  participant: User;
-  lastMessage: string;
-  lastMessageAt: string;
-  unreadCount: number;
+  id: number
+  participant: User
+  lastMessage: string
+  lastMessageAt: string
+  unreadCount: number
+}
+
+export interface PresenceState {
+  onlineUserIds: number[]
+  statuses: Record<number, boolean>
+  typing: boolean
 }
 
 export interface Session {
-  id: number;
-  matchId: number;
-  date: string;
-  status: SessionStatus;
-  participant: User;
-  topic: string;
-  duration: number;
+  id: number
+  matchId: number
+  date: string
+  status: SessionStatus
+  participant: User
+  topic: string
+  duration: number
 }
 
 export interface Rating {
-  id: number;
-  fromUser: User;
-  toUserId: number;
-  rating: number;
-  feedback: string;
-  createdAt: string;
+  id: number
+  fromUser: User
+  toUserId: number
+  rating: number
+  feedback: string
+  createdAt: string
 }
 
 export interface CollabPost {
-  id: number;
-  title: string;
-  description: string;
-  skillsHave: string[];
-  skillsNeeded: string[];
-  projectType?: string;
-  status: 'open' | 'closed';
-  createdAt: string;
-  author: Pick<User, 'id' | 'name' | 'avatar' | 'location' | 'rating'>;
+  id: number
+  title: string
+  description: string
+  skillsHave: string[]
+  skillsNeeded: string[]
+  projectType?: string
+  status: "open" | "closed"
+  createdAt: string
+  author: Pick<User, "id" | "name" | "avatar" | "location" | "rating">
 }
 
 export interface CollabRequest {
-  id: number;
-  postId: number;
-  message?: string;
-  status: 'pending' | 'accepted' | 'rejected';
-  createdAt: string;
-  requester: Pick<User, 'id' | 'name' | 'avatar' | 'location' | 'rating'>;
+  id: number
+  postId: number
+  message?: string
+  status: "pending" | "accepted" | "rejected"
+  createdAt: string
+  requester: Pick<User, "id" | "name" | "avatar" | "location" | "rating">
 }
 
 export interface AuthUser {
-  id: number;
-  name: string;
-  email: string;
-  avatar?: string;
-  token: string;
-  bio?: string;
-  location?: string;
-  rating?: number;
-  totalSessions?: number;
+  id: number
+  name: string
+  email: string
+  avatar?: string
+  token: string
+  bio?: string
+  location?: string
+  rating?: number
+  totalSessions?: number
 }

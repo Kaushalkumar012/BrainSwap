@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const db = require('../db');
 const auth = require('../middleware/auth');
+const { emitToUser } = require('../lib/realtime');
 
 // GET /api/messages/conversations
 router.get('/conversations', auth, async (req, res) => {
@@ -89,6 +90,17 @@ router.post('/', auth, async (req, res) => {
       message: r.message,
       createdAt: r.created_at,
     });
+
+    const payload = {
+      id: r.id,
+      senderId: r.sender_id,
+      receiverId: r.receiver_id,
+      message: r.message,
+      createdAt: r.created_at,
+    };
+
+    emitToUser(r.receiver_id, 'message:new', payload);
+    emitToUser(r.sender_id, 'message:new', payload);
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
