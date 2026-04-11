@@ -9,6 +9,8 @@ import {
   LogOut,
   Handshake,
   Trophy,
+  Target,
+  Zap,
 } from "lucide-react"
 import { SkillSwapLogo } from "@/components/shared/SkillSwapLogo"
 import { BrandWordmark } from "@/components/shared/BrandWordmark"
