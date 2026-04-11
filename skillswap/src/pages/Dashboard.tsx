@@ -57,6 +57,9 @@ export default function Dashboard() {
   const { matches, sessions, skills, ratings } = useAppStore()
 
   const activeMatches = matches.filter((m) => m.status === "active").slice(0, 4)
+  const communityFaces = [user, ...activeMatches.map((match) => match.matchedUser)]
+    .filter(Boolean)
+    .slice(0, 5)
   const upcomingSessions = sessions
     .filter((s) => s.status === "pending" || s.status === "accepted")
     .slice(0, 4)
@@ -127,6 +130,28 @@ export default function Dashboard() {
                 profile progress in one place.
               </p>
             </div>
+            {communityFaces.length > 0 && (
+              <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/65 bg-white/70 px-4 py-3 shadow-[0_16px_30px_rgba(149,186,212,0.18)] backdrop-blur-xl dark:border-white/10 dark:bg-white/8">
+                <div className="flex -space-x-2">
+                  {communityFaces.map((member, index) => (
+                    <img
+                      key={`${member?.id ?? index}-${member?.name ?? "member"}`}
+                      src={member?.avatar}
+                      alt={member?.name ?? "Member"}
+                      className="h-10 w-10 rounded-full border-2 border-white object-cover shadow-md dark:border-[#081524]"
+                    />
+                  ))}
+                </div>
+                <div>
+                  <p className="text-xs tracking-[0.2em] text-slate-500 uppercase dark:text-white/40">
+                    Community
+                  </p>
+                  <p className="text-sm font-medium text-slate-800 dark:text-white">
+                    Learn with talented builders from across India
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">

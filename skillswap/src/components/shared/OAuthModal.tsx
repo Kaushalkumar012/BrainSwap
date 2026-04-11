@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Github, X, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { brainSwapPortraits } from "@/lib/brandPortraits"
 
 interface OAuthAccount {
   name: string
@@ -12,17 +13,17 @@ const GOOGLE_ACCOUNTS: OAuthAccount[] = [
   {
     name: "Aarav Patel",
     email: "aarav.patel@gmail.com",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    avatar: brainSwapPortraits.aarav,
   },
   {
     name: "Priya Sharma",
     email: "priya.sharma@gmail.com",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    avatar: brainSwapPortraits.priya,
   },
   {
     name: "Ananya Bose",
     email: "ananya.bose@gmail.com",
-    avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+    avatar: brainSwapPortraits.ananya,
   },
 ]
 
@@ -30,17 +31,17 @@ const GITHUB_ACCOUNTS: OAuthAccount[] = [
   {
     name: "Rahul Singh",
     email: "rahul.singh@github.com",
-    avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+    avatar: brainSwapPortraits.rahul,
   },
   {
     name: "Vikram Desai",
     email: "vikram.desai@github.com",
-    avatar: "https://randomuser.me/api/portraits/men/55.jpg",
+    avatar: brainSwapPortraits.vikram,
   },
   {
     name: "Arjun Mehta",
     email: "arjun.mehta@github.com",
-    avatar: "https://randomuser.me/api/portraits/men/77.jpg",
+    avatar: brainSwapPortraits.arjun,
   },
 ]
 

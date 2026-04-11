@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff, Github, ArrowRight, CheckCircle2 } from "lucide-react"
 import { SkillSwapLogo } from "@/components/shared/SkillSwapLogo"
+import { BrandWordmark } from "@/components/shared/BrandWordmark"
 import { OAuthModal } from "@/components/shared/OAuthModal"
 import type { OAuthAccount } from "@/components/shared/OAuthModal"
 import { Input } from "@/components/ui/input"
@@ -11,6 +12,7 @@ import { useAuthStore } from "@/store/authStore"
 import { authService } from "@/services/authService"
 import { toast } from "sonner"
 import type { AuthUser } from "@/types"
+import { brainSwapCommunityMembers } from "@/lib/brandPortraits"
 
 function GoogleIcon({ className }: { className?: string }) {
   return (
@@ -139,9 +141,7 @@ export default function Register() {
         <div className="animate-fade-up relative z-10">
           <div className="flex items-center gap-3">
             <SkillSwapLogo size={44} />
-            <span className="text-xl font-bold tracking-tight text-white">
-              BRAIN SWAP
-            </span>
+            <BrandWordmark />
           </div>
         </div>
 
@@ -178,19 +178,22 @@ export default function Register() {
               Active learners
             </p>
             <div className="flex -space-x-2">
-              {["A", "P", "R", "N", "V"].map((l, i) => (
-                <div
-                  key={i}
-                  className="gradient-bg-animated flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0d1526] text-xs font-bold text-white"
+              {brainSwapCommunityMembers.slice(0, 5).map((member, i) => (
+                <img
+                  key={member.name}
+                  src={member.avatar}
+                  alt={member.name}
+                  className="h-8 w-8 rounded-full border-2 border-[#0d1526] object-cover shadow-lg"
                   style={{ animationDelay: `${i * 0.5}s` }}
-                >
-                  {l}
-                </div>
+                />
               ))}
               <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0d1526] bg-white/10 text-xs text-white/60">
                 +2k
               </div>
             </div>
+            <p className="mt-3 text-xs text-white/45">
+              Designers, developers, and mentors from across India are already inside.
+            </p>
           </div>
         </div>
       </div>
@@ -203,7 +206,7 @@ export default function Register() {
         <div className="relative z-10 w-full max-w-sm">
           <div className="animate-fade-up mb-8 flex items-center gap-2 lg:hidden">
             <SkillSwapLogo size={32} />
-            <span className="text-lg font-bold text-white">BRAIN SWAP</span>
+            <BrandWordmark compact />
           </div>
 
           <div className="animate-fade-up-1 glass rounded-2xl p-8 shadow-2xl shadow-black/50">

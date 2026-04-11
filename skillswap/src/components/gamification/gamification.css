@@ -1,0 +1,151 @@
+/* Gamification components styles */
+
+/* Level Progress Bar animations */
+@keyframes fill-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress-width, 100%);
+  }
+}
+
+/* Badge glow effect */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px currentColor);
+  }
+}
+
+.badge-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Achievement unlock celebration */
+@keyframes confetti-fall {
+  to {
+    transform: translateY(500px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti {
+  animation: confetti-fall 3s ease-in-out forwards;
+}
+
+/* Leaderboard entry hover effect */
+.leaderboard-entry {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.leaderboard-entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress bar gradient */
+.progress-gradient {
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  background-size: 200% 100%;
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+/* Level up modal backdrop */
+.level-up-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+/* Rarity color classes for badges */
+.badge-common {
+  color: #9ca3af;
+}
+
+.badge-rare {
+  color: #3b82f6;
+}
+
+.badge-epic {
+  color: #8b5cf6;
+}
+
+.badge-legendary {
+  color: #fbbf24;
+}
+
+/* Rank badges */
+.rank-gold {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.rank-silver {
+  background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+}
+
+.rank-bronze {
+  background: linear-gradient(135deg, #ea580c, #dc2626);
+}
+
+/* Achievement completed state */
+.achievement-completed {
+  border-left: 4px solid #10b981;
+}
+
+/* Smooth tab transitions */
+.tabs-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Leaderboard entry rank badge */
+.rank-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.125rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.rank-badge-1 {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+  color: #fbbf24;
+}
+
+.rank-badge-2 {
+  background: linear-gradient(135deg, rgba(229, 231, 235, 0.2), rgba(209, 213, 219, 0.2));
+  color: #9ca3af;
+}
+
+.rank-badge-3 {
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.2), rgba(220, 38, 38, 0.2));
+  color: #ea580c;
+}

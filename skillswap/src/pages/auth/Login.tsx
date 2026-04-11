@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff, Github, Sparkles, ArrowRight } from "lucide-react"
 import { SkillSwapLogo } from "@/components/shared/SkillSwapLogo"
+import { BrandWordmark } from "@/components/shared/BrandWordmark"
 import { OAuthModal } from "@/components/shared/OAuthModal"
 import type { OAuthAccount } from "@/components/shared/OAuthModal"
 import { Input } from "@/components/ui/input"
@@ -11,6 +12,7 @@ import { useAuthStore } from "@/store/authStore"
 import { authService } from "@/services/authService"
 import { toast } from "sonner"
 import type { AuthUser } from "@/types"
+import { brainSwapCommunityMembers } from "@/lib/brandPortraits"
 
 function GoogleIcon({ className }: { className?: string }) {
   return (
@@ -115,9 +117,7 @@ export default function Login() {
         <div className="animate-fade-right relative z-10">
           <div className="flex items-center gap-3">
             <SkillSwapLogo size={44} />
-            <span className="text-xl font-bold tracking-tight text-white">
-              BRAIN SWAP
-            </span>
+            <BrandWordmark />
           </div>
         </div>
 
@@ -171,17 +171,41 @@ export default function Login() {
         </div>
 
         <div className="animate-scale-in relative z-10 [animation-delay:240ms]">
-          <div className="glow-sweep glass flex max-w-xs items-center gap-3 rounded-2xl p-4">
-            <div className="gradient-bg-animated flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-slate-950">
-              A
+          <div className="glow-sweep glass max-w-sm rounded-2xl p-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs tracking-[0.24em] text-white/45 uppercase">
+                  Community Spotlight
+                </p>
+                <p className="mt-1 text-sm font-medium text-white">
+                  Built for Indian learners and mentors
+                </p>
+              </div>
+              <div className="flex -space-x-2">
+                {brainSwapCommunityMembers.slice(0, 4).map((member) => (
+                  <img
+                    key={member.name}
+                    src={member.avatar}
+                    alt={member.name}
+                    className="h-10 w-10 rounded-full border-2 border-[#08111d] object-cover shadow-lg"
+                  />
+                ))}
+              </div>
             </div>
+            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+              <img
+                src={brainSwapCommunityMembers[0].avatar}
+                alt={brainSwapCommunityMembers[0].name}
+                className="h-10 w-10 shrink-0 rounded-full object-cover"
+              />
             <div>
               <p className="text-sm font-medium text-white">
                 Aarav just learned React
               </p>
-              <p className="text-xs text-white/40">from Priya - 2 min ago</p>
+              <p className="text-xs text-white/40">from Priya in Mumbai - 2 min ago</p>
             </div>
             <div className="ml-auto h-2 w-2 shrink-0 animate-pulse rounded-full bg-emerald-300" />
+            </div>
           </div>
         </div>
       </div>
@@ -204,7 +228,7 @@ export default function Login() {
         <div className="relative z-10 w-full max-w-sm">
           <div className="animate-fade-up mb-8 flex items-center gap-2 lg:hidden">
             <SkillSwapLogo size={32} />
-            <span className="text-lg font-bold text-white">BRAIN SWAP</span>
+            <BrandWordmark compact />
           </div>
 
           <div className="animate-scale-in animate-card-breath glass rounded-[28px] border-white/[0.12] p-8 shadow-2xl shadow-cyan-950/30">

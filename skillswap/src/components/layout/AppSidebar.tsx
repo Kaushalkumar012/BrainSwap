@@ -11,6 +11,7 @@ import {
   Trophy,
 } from "lucide-react"
 import { SkillSwapLogo } from "@/components/shared/SkillSwapLogo"
+import { BrandWordmark } from "@/components/shared/BrandWordmark"
 import {
   Sidebar,
   SidebarContent,
@@ -37,6 +38,8 @@ const navItems = [
   { to: "/sessions", label: "Sessions", icon: CalendarClock },
   { to: "/ratings", label: "Ratings", icon: Star },
   { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { to: "/achievements", label: "Achievements", icon: Target },
+  { to: "/badges", label: "Badges", icon: Zap },
 ]
 
 export function AppSidebar() {
@@ -65,14 +68,7 @@ export function AppSidebar() {
               className="flex items-center gap-2.5"
             >
               <SkillSwapLogo size={34} />
-              <div className="flex flex-col leading-tight">
-                <span className="text-sm font-bold text-sidebar-foreground">
-                  BRAIN SWAP
-                </span>
-                <span className="text-xs font-normal text-sidebar-foreground/50">
-                  Peer Learning
-                </span>
-              </div>
+              <BrandWordmark compact tone="adaptive" className="scale-[0.88]" />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

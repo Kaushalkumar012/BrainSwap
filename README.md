@@ -39,32 +39,23 @@
 
 ---
 
-## 📸 BrainSwap Screenshots (Dark Mode)
+## 📸 Platform Screenshots
 
 <div align="center">
 
-### 🔐 Login Page
-![Login](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/login.png)
+### Core Features Overview
 
-### 🏠 Dashboard
-![Dashboard](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/dashboard.png)
+| 🔐 Login | 🏠 Dashboard | 🤝 Matches |
+|:---:|:---:|:---:|
+| ![Login](./screenshots/login.png) | ![Dashboard](./screenshots/dashboard.png) | ![Matches](./screenshots/matches.png) |
 
-### 🤝 Smart Matches
-![Matches](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/matches.png)
+| 💬 Messages | 📅 Sessions | 🚀 Collabs |
+|:---:|:---:|:---:|
+| ![Messages](./screenshots/messages.png) | ![Sessions](./screenshots/sessions.png) | ![Collabs](./screenshots/collabs.png) |
 
-### 💬 Real-time Messages
-![Messages](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/messages.png)
-
-| 📅 Sessions | 🚀 Collab Board |
-|:---:|:---:|
-| ![Sessions](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/sessions.png) | ![Collabs](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/collabs.png) |
-
-| 🏆 Leaderboard | 👤 Profile |
-|:---:|:---:|
-| ![Leaderboard](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/leaderboard.png) | ![Profile](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/profile.png) |
-
-### 🤖 AI Chatbot
-![Chatbot](https://raw.githubusercontent.com/Kaushalkumar012/BrainSwap/main/screenshots/chatbot.png)
+| 🏆 Leaderboard | 👤 Profile | 🤖 Chatbot |
+|:---:|:---:|:---:|
+| ![Leaderboard](./screenshots/leaderboard.png) | ![Profile](./screenshots/profile.png) | ![Chatbot](./screenshots/chatbot.png) |
 
 </div>
 

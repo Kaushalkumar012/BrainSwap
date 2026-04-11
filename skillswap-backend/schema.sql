@@ -97,3 +97,13 @@ CREATE TABLE IF NOT EXISTS collab_requests (
   FOREIGN KEY (requester_id) REFERENCES users(id) ON DELETE CASCADE,
   UNIQUE KEY unique_request (post_id, requester_id)
 );
+
+CREATE TABLE IF NOT EXISTS bot_conversations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  user_message TEXT NOT NULL,
+  bot_response TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  INDEX idx_user_date (user_id, created_at DESC)
+);

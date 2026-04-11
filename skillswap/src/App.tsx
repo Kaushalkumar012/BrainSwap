@@ -10,6 +10,8 @@ import Sessions from "@/pages/Sessions"
 import Ratings from "@/pages/Ratings"
 import Collabs from "@/pages/Collabs"
 import Leaderboard from "@/pages/Leaderboard"
+import Achievements from "@/pages/Achievements"
+import Badges from "@/pages/Badges"
 import { Toaster } from "@/components/ui/sonner"
 
 export default function App() {
@@ -25,9 +27,11 @@ export default function App() {
             <Route path="/matches" element={<Matches />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/sessions" element={<Sessions />} />
-            <Route path="/ratings" element={<Ratings />} />
+           <Route path="/ratings" element={<Ratings />} />
             <Route path="/collabs" element={<Collabs />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/achievements" element={<Achievements />} />
+            <Route path="/badges" element={<Badges />} />
           </Route>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
