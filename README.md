@@ -39,7 +39,7 @@
 
 ---
 
-## 📸 Screenshots
+## 📸 BrainSwap Screenshots (Dark Mode)
 
 <div align="center">
 

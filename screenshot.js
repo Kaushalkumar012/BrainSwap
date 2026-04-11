@@ -24,6 +24,11 @@ const PAGES = [
   });
 
   const page = await browser.newPage();
+  await page.evaluateOnNewDocument(() => {
+    localStorage.setItem('theme', 'dark');
+    document.documentElement.classList.remove('light');
+    document.documentElement.classList.add('dark');
+  });
 
   // Login first
   console.log('Logging in...');
