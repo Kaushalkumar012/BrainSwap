@@ -208,6 +208,61 @@ class SocketService {
     return () => this.socket?.off('presence:unsubscribed', callback);
   }
 
+  // ===== Call (WebRTC Signaling) Events =====
+
+  /** Returns false if we know the user is offline, true/undefined if online or unknown */
+  isUserOnline(userId: number): boolean | undefined {
+    // We track this via presence events in the app store — check window-level cache
+    const cache = (window as any).__onlineUsers as Set<number> | undefined
+    if (!cache) return undefined // unknown, let the call proceed
+    return cache.has(userId)
+  }
+
+  sendCallOffer(targetUserId: number, offer: RTCSessionDescriptionInit, callType: 'video' | 'audio', callId: string): void {
+    this.socket?.emit('call:offer', { targetUserId, offer, callType, callId })
+  }
+
+  sendCallAnswer(targetUserId: number, answer: RTCSessionDescriptionInit, callId: string): void {
+    this.socket?.emit('call:answer', { targetUserId, answer, callId })
+  }
+
+  sendIceCandidate(targetUserId: number, candidate: RTCIceCandidateInit, callId: string): void {
+    this.socket?.emit('call:ice-candidate', { targetUserId, candidate, callId })
+  }
+
+  endCall(targetUserId: number, callId: string): void {
+    this.socket?.emit('call:end', { targetUserId, callId })
+  }
+
+  rejectCall(targetUserId: number, callId: string): void {
+    this.socket?.emit('call:reject', { targetUserId, callId })
+  }
+
+  onIncomingCall(callback: (data: any) => void): () => void {
+    this.socket?.on('call:incoming', callback)
+    return () => this.socket?.off('call:incoming', callback)
+  }
+
+  onCallAnswered(callback: (data: any) => void): () => void {
+    this.socket?.on('call:answered', callback)
+    return () => this.socket?.off('call:answered', callback)
+  }
+
+  onCallIceCandidate(callback: (data: any) => void): () => void {
+    this.socket?.on('call:ice-candidate', callback)
+    return () => this.socket?.off('call:ice-candidate', callback)
+  }
+
+  onCallEnded(callback: (data: any) => void): () => void {
+    this.socket?.on('call:ended', callback)
+    return () => this.socket?.off('call:ended', callback)
+  }
+
+  onCallRejected(callback: (data: any) => void): () => void {
+    this.socket?.on('call:rejected', callback)
+    return () => this.socket?.off('call:rejected', callback)
+  }
+
   // ===== Generic Event Listener =====
 
   /**

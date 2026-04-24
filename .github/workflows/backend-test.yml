@@ -1,0 +1,70 @@
+name: Backend Tests & Linting
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'skillswap-backend/**'
+      - '.github/workflows/backend-test.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'skillswap-backend/**'
+      - '.github/workflows/backend-test.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: skillswap-backend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: skillswap-backend
+        run: npm ci
+      
+      - name: Run linter
+        working-directory: skillswap-backend
+        run: npm run lint
+        continue-on-error: true
+      
+      - name: Run tests
+        working-directory: skillswap-backend
+        run: npm run test:ci
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./skillswap-backend/coverage/lcov.info
+          flags: backend
+          fail_ci_if_error: false
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build backend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.backend
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

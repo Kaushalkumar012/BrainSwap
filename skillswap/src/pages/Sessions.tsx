@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CalendarClock, CheckCircle2, XCircle, Clock, Plus } from 'lucide-react';
+import { CalendarClock, CheckCircle2, XCircle, Clock, Plus, Phone, Video } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -64,6 +64,22 @@ function SessionCard({ session, onAccept, onReject, onComplete }: { session: Ses
             )}
             {session.status === 'accepted' && onComplete && (
               <div className="flex gap-2 mt-3">
+                <Button
+                  size="sm" variant="outline"
+                  className="h-7 text-xs border-green-500/40 text-green-600 hover:bg-green-500/10"
+                  onClick={() => (window as any).__startCall?.({ id: session.participant.id, name: session.participant.name, avatar: session.participant.avatar }, 'audio')}
+                >
+                  <Phone className="w-3.5 h-3.5 mr-1" />
+                  Voice Call
+                </Button>
+                <Button
+                  size="sm" variant="outline"
+                  className="h-7 text-xs border-blue-500/40 text-blue-600 hover:bg-blue-500/10"
+                  onClick={() => (window as any).__startCall?.({ id: session.participant.id, name: session.participant.name, avatar: session.participant.avatar }, 'video')}
+                >
+                  <Video className="w-3.5 h-3.5 mr-1" />
+                  Video Call
+                </Button>
                 <Button size="sm" className="h-7 text-xs bg-emerald-600 hover:bg-emerald-700" onClick={() => onComplete(session.id)}>
                   <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
                   Mark as Complete

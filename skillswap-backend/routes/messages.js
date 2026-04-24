@@ -6,13 +6,12 @@ const { emitToUser } = require('../lib/realtime');
 // GET /api/messages/conversations
 router.get('/conversations', auth, async (req, res) => {
   try {
-    // Get all users the current user has exchanged messages with
     const [rows] = await db.query(
-      `SELECT 
+      `SELECT
         u.id, u.name, u.email, u.avatar, u.location,
         m.message as last_message,
         m.created_at as last_message_at,
-        (SELECT COUNT(*) FROM messages 
+        (SELECT COUNT(*) FROM messages
          WHERE sender_id = u.id AND receiver_id = ? AND created_at > COALESCE(
            (SELECT MAX(created_at) FROM messages WHERE sender_id = ? AND receiver_id = u.id), '1970-01-01'
          )) as unread_count
@@ -49,7 +48,7 @@ router.get('/conversations', auth, async (req, res) => {
   }
 });
 
-// GET /api/messages/:userId  — thread between current user and userId
+// GET /api/messages/:userId
 router.get('/:userId', auth, async (req, res) => {
   try {
     const [rows] = await db.query(
@@ -83,14 +82,6 @@ router.post('/', auth, async (req, res) => {
     );
     const [rows] = await db.query('SELECT * FROM messages WHERE id = ?', [result.insertId]);
     const r = rows[0];
-    res.status(201).json({
-      id: r.id,
-      senderId: r.sender_id,
-      receiverId: r.receiver_id,
-      message: r.message,
-      createdAt: r.created_at,
-    });
-
     const payload = {
       id: r.id,
       senderId: r.sender_id,
@@ -98,9 +89,29 @@ router.post('/', auth, async (req, res) => {
       message: r.message,
       createdAt: r.created_at,
     };
-
+    res.status(201).json(payload);
     emitToUser(r.receiver_id, 'message:new', payload);
     emitToUser(r.sender_id, 'message:new', payload);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
+// DELETE /api/messages/:id
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const msgId = parseInt(req.params.id);
+    const userId = Number(req.user.id);
+
+    const [rows] = await db.query(
+      'SELECT id FROM messages WHERE id = ? AND (sender_id = ? OR receiver_id = ?)',
+      [msgId, userId, userId]
+    );
+
+    if (!rows.length) return res.status(404).json({ message: 'Message not found' });
+
+    await db.query('DELETE FROM messages WHERE id = ?', [msgId]);
+    res.json({ id: msgId });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }

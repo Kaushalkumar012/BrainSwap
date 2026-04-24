@@ -11,6 +11,11 @@ import {
   Trophy,
   Target,
   Zap,
+  Github,
+  HelpCircle,
+  Share2,
+  Moon,
+  Sun,
 } from "lucide-react"
 import { SkillSwapLogo } from "@/components/shared/SkillSwapLogo"
 import { BrandWordmark } from "@/components/shared/BrandWordmark"
@@ -31,6 +36,7 @@ import {
 import { UserAvatar } from "@/components/shared/UserAvatar"
 import { useAuthStore } from "@/store/authStore"
 import { useAppStore } from "@/store/appStore"
+import { useEffect, useState } from "react"
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -53,12 +59,40 @@ export function AppSidebar() {
   const { sessions } = useAppStore()
   const pendingSessions = sessions.filter((s) => s.status === "pending").length
 
+  // Theme
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"))
+  const toggleTheme = () => {
+    const next = !isDark
+    document.documentElement.classList.toggle("dark", next)
+    localStorage.setItem("theme", next ? "dark" : "light")
+    setIsDark(next)
+  }
+  useEffect(() => {
+    const saved = localStorage.getItem("theme")
+    if (saved) { const d = saved === "dark"; document.documentElement.classList.toggle("dark", d); setIsDark(d) }
+  }, [])
+
+  // Invite
+  const handleInvite = () => {
+    const url = window.location.origin
+    if (navigator.share) {
+      navigator.share({ title: "BRAIN SWAP", text: "Join me on BRAIN SWAP — exchange skills for free!", url })
+    } else {
+      navigator.clipboard.writeText(url)
+      alert("Link copied to clipboard!")
+    }
+  }
+
+  // Help modal
+  const [showHelp, setShowHelp] = useState(false)
+
   const handleLogout = () => {
     logout()
     navigate("/login")
   }
 
   return (
+    <>
     <Sidebar collapsible="icon" variant="sidebar">
       {/* Brand Header */}
       <SidebarHeader className="px-3 py-4">
@@ -143,6 +177,57 @@ export function AppSidebar() {
                   <span>Profile</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              {/* Theme toggle */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip={isDark ? "Light Mode" : "Dark Mode"}
+                  onClick={toggleTheme}
+                  className="text-sidebar-foreground/70 hover:text-sidebar-foreground"
+                >
+                  {isDark
+                    ? <Sun className="h-4 w-4 shrink-0" />
+                    : <Moon className="h-4 w-4 shrink-0" />
+                  }
+                  <span>{isDark ? "Light Mode" : "Dark Mode"}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Invite / Share */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="Invite a Friend"
+                  onClick={handleInvite}
+                  className="text-sidebar-foreground/70 hover:text-sidebar-foreground"
+                >
+                  <Share2 className="h-4 w-4 shrink-0" />
+                  <span>Invite a Friend</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* GitHub */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="View on GitHub"
+                  onClick={() => window.open("https://github.com/Kaushalkumar012/BrainSwap", "_blank")}
+                  className="text-sidebar-foreground/70 hover:text-sidebar-foreground"
+                >
+                  <Github className="h-4 w-4 shrink-0" />
+                  <span>GitHub Repo</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Help */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="Help & Shortcuts"
+                  onClick={() => setShowHelp(true)}
+                  className="text-sidebar-foreground/70 hover:text-sidebar-foreground"
+                >
+                  <HelpCircle className="h-4 w-4 shrink-0" />
+                  <span>Help & Shortcuts</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -186,5 +271,35 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
+
+      {/* Help & Shortcuts modal */}
+      {showHelp && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowHelp(false)}>
+          <div className="w-[340px] rounded-2xl border border-border bg-card p-5 shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <p className="font-semibold text-sm">Help & Keyboard Shortcuts</p>
+              <button onClick={() => setShowHelp(false)} className="text-muted-foreground hover:text-foreground"><HelpCircle className="w-4 h-4" /></button>
+            </div>
+            <div className="space-y-0 text-xs text-muted-foreground">
+              {([
+                ["Go to Dashboard", "G then D"],
+                ["Go to Messages", "G then M"],
+                ["Go to Sessions", "G then S"],
+                ["Go to Matches", "G then A"],
+                ["Send message", "Enter"],
+                ["New line in message", "Shift + Enter"],
+                ["Open Chatbot", "Click bot button"],
+              ] as [string, string][]).map(([action, shortcut]) => (
+                <div key={action} className="flex items-center justify-between py-2 border-b border-border/40 last:border-0">
+                  <span>{action}</span>
+                  <kbd className="px-2 py-0.5 rounded bg-muted text-[10px] font-mono text-foreground">{shortcut}</kbd>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-[11px] text-muted-foreground/60 text-center">BRAIN SWAP v1.0 • Built with ❤️ by RunTimeError</p>
+          </div>
+        </div>
+      )}
+    </>
   )
 }

@@ -1,0 +1,39 @@
+# Backend Dockerfile (Node.js + Express)
+# Build stage
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copy package files
+COPY skillswap-backend/package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Final stage
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install tini for proper signal handling
+RUN apk add --no-cache tini
+
+# Copy application files from builder
+COPY --from=builder /app/node_modules ./node_modules
+COPY skillswap-backend/ .
+
+# Create logs directory
+RUN mkdir -p logs
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:' + (process.env.PORT || 8080) + '/api/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+
+# Expose port
+EXPOSE 8080
+
+# Use tini to handle signals properly
+ENTRYPOINT ["/sbin/tini", "--"]
+
+# Start application
+CMD ["node", "index.js"]

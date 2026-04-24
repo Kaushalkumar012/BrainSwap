@@ -5,6 +5,7 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/skillswap/',  // For GitHub Pages deployment (change if using custom domain)
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

@@ -17,6 +17,7 @@ import { ratingService } from "@/services/ratingService"
 import { ThemeToggle } from "@/components/shared/ThemeToggle"
 import { presenceService } from "@/services/presenceService"
 import { ChatBot } from "@/components/shared/ChatBot"
+import { CallModal } from "@/components/shared/CallModal"
 import { Toaster } from "@/components/ui/sonner"
 
 export function AppLayout() {
@@ -86,6 +87,7 @@ export function AppLayout() {
         </main>
       </SidebarInset>
       <ChatBot />
+      <CallModal currentUserId={useAuthStore.getState().user?.id ?? 0} />
       <Toaster richColors position="bottom-right" />
     </SidebarProvider>
   )

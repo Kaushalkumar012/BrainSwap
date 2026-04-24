@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react"
-import { MessageCircle, X, Send, Bot, Minimize2, Sparkles } from "lucide-react"
+import { useState, useRef, useEffect, useCallback } from "react"
+import { MessageCircle, X, Send, Bot, Minimize2, Sparkles, GripHorizontal } from "lucide-react"
 import { useAuthStore } from "@/store/authStore"
 import { useAppStore } from "@/store/appStore"
 
@@ -110,6 +110,10 @@ export function ChatBot() {
     },
   ])
   const [typing, setTyping] = useState(false)
+  const [pos, setPos] = useState({ x: 24, y: window.innerHeight - 90 })
+  const [dragging, setDragging] = useState(false)
+  const dragOffset = useRef({ x: 0, y: 0 })
+  const hasDragged = useRef(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const { user } = useAuthStore()
@@ -128,6 +132,31 @@ export function ChatBot() {
   useEffect(() => {
     if (open && !minimized) inputRef.current?.focus()
   }, [open, minimized])
+
+  const onDragStart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    hasDragged.current = false
+    dragOffset.current = { x: e.clientX - pos.x, y: e.clientY - pos.y }
+    setDragging(true)
+  }, [pos])
+
+  useEffect(() => {
+    if (!dragging) return
+    const onMove = (e: MouseEvent) => {
+      hasDragged.current = true
+      const W = window.innerWidth, H = window.innerHeight
+      const elW = open ? 360 : 56
+      const elH = open ? (minimized ? 56 : 520) : 56
+      setPos({
+        x: Math.min(Math.max(0, e.clientX - dragOffset.current.x), W - elW),
+        y: Math.min(Math.max(0, e.clientY - dragOffset.current.y), H - elH),
+      })
+    }
+    const onUp = () => setDragging(false)
+    window.addEventListener("mousemove", onMove)
+    window.addEventListener("mouseup", onUp)
+    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp) }
+  }, [dragging, open, minimized])
 
   const sendMessage = () => {
     if (!input.trim()) return
@@ -181,8 +210,10 @@ export function ChatBot() {
       {/* Floating button */}
       {!open && (
         <button
-          onClick={() => setOpen(true)}
-          className="animate-pulse-glow fixed right-6 bottom-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/40 transition-transform duration-200 hover:scale-110"
+          onMouseDown={onDragStart}
+          onClick={() => { if (!hasDragged.current) setOpen(true) }}
+          className="animate-pulse-glow fixed z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/40 hover:scale-110 transition-transform duration-200"
+          style={{ left: pos.x, top: pos.y, cursor: dragging ? "grabbing" : "grab" }}
           aria-label="Open chatbot"
         >
           <MessageCircle className="h-6 w-6" />
@@ -193,15 +224,22 @@ export function ChatBot() {
       {/* Chat window */}
       {open && (
         <div
-          className={`fixed right-6 bottom-6 z-50 flex w-[360px] flex-col overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40 transition-all duration-300 ${
+          className={`fixed z-50 flex w-[360px] flex-col overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40 transition-[height] duration-300 ${
             minimized ? "h-14" : "h-[520px]"
           }`}
           style={{
+            left: pos.x,
+            top: pos.y,
             background: "linear-gradient(145deg, #0f1729 0%, #0d1120 100%)",
           }}
         >
-          {/* Header */}
-          <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-gradient-to-r from-indigo-600/20 to-violet-600/20 px-4 py-3">
+          {/* Header — drag handle */}
+          <div
+            onMouseDown={onDragStart}
+            style={{ cursor: dragging ? "grabbing" : "grab" }}
+            className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-gradient-to-r from-indigo-600/20 to-violet-600/20 px-4 py-3 select-none"
+          >
+            <GripHorizontal className="h-3.5 w-3.5 text-white/30 shrink-0" />
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600">
               <Bot className="h-4 w-4 text-white" />
             </div>
@@ -216,12 +254,14 @@ export function ChatBot() {
               </p>
             </div>
             <button
+              onMouseDown={e => e.stopPropagation()}
               onClick={() => setMinimized(!minimized)}
               className="p-1 text-white/40 transition-colors hover:text-white/80"
             >
               <Minimize2 className="h-4 w-4" />
             </button>
             <button
+              onMouseDown={e => e.stopPropagation()}
               onClick={() => setOpen(false)}
               className="p-1 text-white/40 transition-colors hover:text-white/80"
             >

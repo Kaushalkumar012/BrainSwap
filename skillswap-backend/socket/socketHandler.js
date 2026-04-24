@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 /**
  * Initialize Socket.io handlers
  * @param {Server} io - Socket.io server instance
- * @param {Object} handlers - Event handlers { chat, bot, presence }
+ * @param {Object} handlers - Event handlers { chat, bot, presence, call }
  */
 function initializeSocketHandlers(io, handlers) {
   // Middleware to authenticate socket connections
@@ -54,6 +54,15 @@ function initializeSocketHandlers(io, handlers) {
     if (handlers.presence) {
       socket.on('presence:subscribe', (data) => handlers.presence.onSubscribe(socket, data));
       socket.on('presence:unsubscribe', (data) => handlers.presence.onUnsubscribe(socket, data));
+    }
+
+    // Call (WebRTC signaling) events
+    if (handlers.call) {
+      socket.on('call:offer',         (data) => handlers.call.onCallOffer(socket, data));
+      socket.on('call:answer',        (data) => handlers.call.onCallAnswer(socket, data));
+      socket.on('call:ice-candidate', (data) => handlers.call.onIceCandidate(socket, data));
+      socket.on('call:end',           (data) => handlers.call.onCallEnd(socket, data));
+      socket.on('call:reject',        (data) => handlers.call.onCallReject(socket, data));
     }
 
     // Disconnect handler
